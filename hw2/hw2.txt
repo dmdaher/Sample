@@ -1,0 +1,39 @@
+a. README.md should read that the files are tracked and unmodified because the files were grabbed from the repo and were not changed (unmodified).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Problem 3
+
+a. 
+
+I think this is nlog(n) because the main loop is going through n times while the inner loop log(n) times since j is incrementing exponentially
+(2^n). The if statement is O(1) so we can ignore that since it is constant.
+
+
+b. 
+
+Starting in the inner loop, k starts at j and goes to size n. Worst case here is that k runs n times, so it would have O(n) run-time. the if statement would have O(1) + the run time of the for loop inside it which was acknowledged to be O(n). Thus, we can ignore the O(1) because it is constant. Looking at the second for loop, j starts at 0 and is incremented by 1 to size n. This is simple and the notation is O(n). Lastly, in the first for loop, i starts at 1 and is incremented exponentially (2^n) to size n. To increment exponentially to size n, the sum must be from i=1 to log base 2 of n because then log(2^n) would be n. Thus, the big O notation is
+O(log(n)) for the first for loop. Overall, the three run times combine to be O(log(n))*O(n)*O(n) = O(n^2*log(n)).
+
+c. 
+
+what is happening is that head is pointing to a new node and curr is set = to head meaning it is pointing to that new node as well. Then, the new node is given a value of 0 and is pointing to no address NULL. Then, the for loop is entered and runs n times. (((((((OR IS IT n-1?))))))????? 
+
+and because curr is pointing to that initial node, it gives the node a new node to point to, then moves curr to point to the new node, then gives the new node a value and address of NULL. The value it gives each new node is equal to i as i increments. Once, the for loop ends, curr is set = to head so it once again points to the start of the linked list. This for loop has a run time of O(n) since i is being incremented by 1 and is going from 1 to size n.
+Now, when the while loop is entered, the for loop is running as many times as curr->data is equal to. Taking a look at the linked list, as you move through the linked list, the values increase by 1. What that means for the for loop is that i is incrementing by 1 up to the value of the linked list which itself is incrementing by 1 each time. Inside the for loop, the command divides the value in the linked list by 2. To dissect that, if curr->data = 8 and i = 0, the for loop runs once when = to 8 then once when = to 4 and i=1 then once when = to 2 and i = 2. It ran a total of 3 times for that one node which is log base 2 (8) = 3. Thus, the for loop actually runs log base 2 (n) times every time it moves through the linked list which is n times. Overall, the for loop itself has a big O notation of O(n*log(n)). 
+
+d. 
+
+
