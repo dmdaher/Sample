@@ -1,62 +1,58 @@
 a. README.md should read that the files are tracked and unmodified because the files were grabbed from the repo and were not changed (unmodified).
 
+b. fun_problem is untracked (not unmodified because check the diagram)
+readme is modified
+
+c. both staged
+
+d. both are unmodified when committed and then are modified when echo is called
+
+e. readme is staged and funproblem is unmodified since checkout discards changes inworking directory.
+   contents of fun problem is NOTHING because so far so good was called but then checkout discarded that addition
+   
+f. Readme is modified because "Fancy git move" was appended to Readme
 
 
+Problem 2
 
-
-
-
-
-
-
-
-
+Reviewed
 
 
 
 Problem 3
 
-a. 
-
-I think this is nlog(n) because the main loop is going through n times while the inner loop log(n) times since j is incrementing exponentially
-(2^n). The if statement is O(1) so we can ignore that since it is constant.
+a. O(n*logn)
+Assuming worst case for the if statement, let's assume the array is filled with all the values equal to 0. This permits the if statement to go through every time to the inner for loop. The inner loop starts at j=1 to i and increments exponentially at 2^n which means it starts at j=1 and goes to log(i). The sum of this for loop is the {sum from j=1 to log(i) of 1} because the work inside that for loop takes O(1) time. Thus, that sum results in log(n) since 1 is added to itself log(i) times until i becomes n. Then, the first for loop starts at i=0 to n, so the overall sum becomes the {sum from i=0 to n of log(n)} which is log(n) added to log(n) n times. That is simplified to n*log(n). Thus, the big O of the overall nested for loop is O(n*log(n)).
 
 
-b. 
+b* O(n^2)
+Looking at the inner for loop, k=j which means that we must look at the for loop and if statement that come before. the for loop before starts at j=0 and goes to n which is a runtime of O(n). Then, the if statement runs n/i times because it depends what the value of i is. If i is 1 and n is 10, n/i = 10. This is because the if statement will run every time because every number from j=0 to j=n=10 modulus 1 is 0. However, if i is 2 and n is 10, the if statement will only run 10/2 = 5 times. The same occurs as i increments, so the if statement runs n/i times.
+Thus, we must take the sum from j=0 to n/i of n-j times (n-j because k starts at j until n). This sum can be split up into the {sum of j=0 to n/i of n} - {sum of j=0 to n/i of j}. The sum of j=0 to n/i of j can be translated into an arithmetic sequence = [(n/i)*(n/i + 1)]/2. Thus, the {sum of j=0 to n/i of n} = n^2/i and we can ignore the [(n/i)*(n/i + 1)]/2 because n^2/i is dominant in the long-term so the big O is O(n^2/i) at this point. This means that from starting from the second for loop with j=0 until the end has a big O of (n^2/i). Moving to the first for loop, i=1 until n but is incremented exponentially at 2^n. This also can be translated as i=1 until i<logn and i is incremented by 1. This can be summed as i=1 to log(n) of n^2/i. It is n^2/i due to the previous big O explanation of the loops afterwards. This can be simplified to n^2 * {the sum from i=1 to logn of 1/i}. The sum 1/i is added from i=1 to logn which ends up being a constant sum. This sum is multiplied by n^2/i which is a final big O of O(n^2).
 
-Starting in the inner loop, k starts at j and goes to size n. Worst case here is that k runs n times, so it would have O(n) run-time. the if statement would have O(1) + the run time of the for loop inside it which was acknowledged to be O(n). Thus, we can ignore the O(1) because it is constant. Looking at the second for loop, j starts at 0 and is incremented by 1 to size n. This is simple and the notation is O(n). Lastly, in the first for loop, i starts at 1 and is incremented exponentially (2^n) to size n. To increment exponentially to size n, the sum must be from i=1 to log base 2 of n because then log(2^n) would be n. Thus, the big O notation is
-O(log(n)) for the first for loop. Overall, the three run times combine to be O(log(n))*O(n)*O(n) = O(n^2*log(n)).
+c. O(n^2) 
+When the for loop is entered, a new node is created and the for loop builds a linked list. The for loop runs from i=1 to n times which is big O notation of O(n), meaning the linked list is size n. Each time the for loop runs, the data stored in curr is shifted from 1 over i times. Thus, each consective data value will be 1 to 10 to 100 to 1000 and so on until the data value equals 2^n times when i reaches size n. Another way to say that is the binary values grow exponentially from 1 to 2 to 4 to 2^n. Next, the while loop is entered when curr is equal to the head. Inside the for loop, i starts at 0 and runs curr->data times which is equal to 2^n as explained earlier. The command inside the for loop sets curr->data equal to itself/2 which over time after it runs curr->data times (2^n times), the for loop actually runs log base 2 (2^n) = n times since the command is dividing itself by 2 every time. Then, the curr moves over to the next node and this for loop repeats n times since the linked list was built until size n as described earlier. Thus, because the for loop inside the while loop runs at O(n), the while loop runs n times O(n), the overall big O inside the while loop is O(n)*O(n) = O(n^2) which is added to the O(n) of the first for loop which is overall still O(n^2). 
 
-c. 
-
-what is happening is that head is pointing to a new node and curr is set = to head meaning it is pointing to that new node as well. Then, the new node is given a value of 0 and is pointing to no address NULL. Then, the for loop is entered and runs n times. (((((((OR IS IT n-1?))))))????? 
-
-and because curr is pointing to that initial node, it gives the node a new node to point to, then moves curr to point to the new node, then gives the new node a value and address of NULL. The value it gives each new node is equal to i as i increments. Once, the for loop ends, curr is set = to head so it once again points to the start of the linked list. This for loop has a run time of O(n) since i is being incremented by 1 and is going from 1 to size n.
-Now, when the while loop is entered, the for loop is running as many times as curr->data is equal to. Taking a look at the linked list, as you move through the linked list, the values increase by 1. What that means for the for loop is that i is incrementing by 1 up to the value of the linked list which itself is incrementing by 1 each time. Inside the for loop, the command divides the value in the linked list by 2. To dissect that, if curr->data = 8 and i = 0, the for loop runs once when = to 8 then once when = to 4 and i=1 then once when = to 2 and i = 2. It ran a total of 3 times for that one node which is log base 2 (8) = 3. Thus, the for loop actually runs log base 2 (n) times every time it moves through the linked list which is n times. Overall, the for loop itself has a big O notation of O(n*log(n)). 
-
-d. 
-
+d.O(n)
 
 
 Problem 4
 
-1. 
+1. A map would be perfect where the key value is the zip code which holds values for all voting statistics. Using a map would allow for speedy access by just choosing a zip code and finding all the voting statistics attached to that zip code.
 
 
-2. A list of strings of the names of the students would be simple enough to know which students solved the problem. 
+2. A list of strings of the names of the students would be simple enough to know which students solved the problem.
 
 3. A list of strings stored in an array where the index of the array is the supposed pokeindex. Because arrays are index 0 to n, the array+1 would be the pokeindex number since the array is an index number behind the pokeindex.
 
-4. A map would be perfect for this where the name of the movie would be the key value while the year it was made would be the mapped value that stores the content associated with that key. Because of the key and map value association, typing a movie name and the year would immediately link you with all the reviews you need.
-
+4. A map of maps would be perfect for this where the name of the movie would be the key and its values are a map of years and those values are the reviews.
 
 
 Problem 5
 
-I will define in and out as #in and #out to make it visible in the text. 
+I will define in and out as #in and #out to make it visible in the text.
 
 Basically, this recursion reverses the linked list to make it 5,4,3,2,1.
-#in points to 1,2,3,4,5 and when it is called, it and its next do not point to NULL, so out is set equal to funcA(#in->next). Before we continue, #in still points to the beginning from 1-5 and #out points to 2-5 because #in->next was the argument inside funcA when it was set equal to #out. 
+#in points to 1,2,3,4,5 and when it is called, it and its next do not point to NULL, so out is set equal to funcA(#in->next). Before we continue, #in still points to the beginning from 1-5 and #out points to 2-5 because #in->next was the argument inside funcA when it was set equal to #out.
 
 Now, funcA is called until in points to 5 and its next is NULL, so it skips the if statement and returns #in. To summarize, #out was set = to funcA when the list was 2,3,4,5 then 3,4,5 then 4,5 then 5. Then, #in returns #in because when #in points to 5, its next is NULL and ends up returning #in. Thus, when #in returns, it reverts back to pointing at 4,5 while #out still points to the position of 5.
 
@@ -68,7 +64,7 @@ After out is returned, the recursion kicks back up a level and enters funcB when
 The recursion continues until #out points to 5,4,3,2,1.
 
 
-5. 
+5.
 
 
 
