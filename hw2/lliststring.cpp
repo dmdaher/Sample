@@ -45,7 +45,6 @@ void LListString::insert(int pos, const string& val) ///ADD BACK std::string& va
     }
     Item* newItem = new Item;
     newItem->val = val;
-    cout<<"inside insert"<<endl;
     if(size_ == 0)
     {
         head_ = newItem;
@@ -77,7 +76,6 @@ void LListString::insert(int pos, const string& val) ///ADD BACK std::string& va
 void LListString::remove(int pos)
 {
     // TODO: complete the remove function.
-    cout<<"inside remove"<<endl;
     Item* curr = getNodeAt(pos);
     if(size_==0) {
         cout<<"invalid_argument"<<endl;
@@ -95,11 +93,11 @@ void LListString::remove(int pos)
         return;
     }
     else if(pos==0) {
-        cout<<"position = 0"<<endl;
+        //cout<<"position = 0"<<endl;
         head_ = curr->next;
         head_->prev = NULL;
         delete curr;
-        cout<<"did i delete curr in pos==0??"<<endl;
+        //cout<<"did i delete curr in pos==0??"<<endl;
     }
     else if(pos==size()-1) {
         tail_ = getNodeAt(pos-1);
