@@ -8,66 +8,33 @@ struct Node{
 
 };
 
-/*class LinkedList
-{
-	LinkedList()
-}*/
-
-Node *head;
+Node *head = NULL;
 
 void split (Node* &in, Node*& odds, Node*& evens)
 {
-	Node *oddsTemp;
-	Node *oddsTemp2;
-	Node *evensTemp;
-	Node *evensTemp2;
-
-	while(in!=NULL)
+	if(in==NULL)
 	{
-		if (in->value % 2 == 1)
-		{
-			if(odds==NULL)
-			{
-				odds = in;
-				goto 42;
-			}
-			oddsTemp = odds;
-			while(oddsTemp!=NULL)
-			{
-				oddsTemp2 = oddsTemp;
-				oddsTemp = oddsTemp->next;
-			}
-			oddsTemp2 -> next = in;
-		}
-		if (in->value % 2 == 0)
-		{
-			if (evens == NULL)
-			{
-				evens = in;
-			}
-
-		}
-		in = in -> next;
+		cout<<"split has empty list!"<<endl;
+		return;
 	}
-	/*
-	while (odds!=NULL)
+	split(in->next, odds, evens);
+	if(in->value%2==1)
 	{
-		if(odds->value % 2 == 1)
-		{
-			tempOddsRunner = odds;
-			odds = odds -> next;
-			tempOddsRunner->next = odds;
-		}
-
-	}*/
-	/*while (evens!=NULL)
+		in->next = odds;
+		odds = in;
+		in = NULL;
+	}
+	else
 	{
-		if (head->value % 2 == 0)
-	}*/
+		in ->next = evens;
+		evens = in;
+		in = NULL;
+	}	
 }
 
 void pushback(int inputValue)
 {
+	cout<<"in pushback";
 	if (head == NULL)
 	{
 		head = new Node;
@@ -87,6 +54,7 @@ void pushback(int inputValue)
 		newnode->value = inputValue;
 		newnode->next = NULL;
 		temp1->next = newnode;
+		cout<<"what is the value here: "<<inputValue<<endl;
 	}
 } 
 int main ()
@@ -94,26 +62,28 @@ int main ()
 	int total;
 	cout << "choose a list size: "<<endl;
 	cin >> total;
-	int original[total];
+	int *original = new int[total];
 	cout << "Type in " << total <<" numbers to add to a list: "<<endl;
-	
-	/*head = new Node;
-	head -> next = NULL;*/
-
+	int counter1 = 0;
 	for (int i = 0; i < total; i++)
 	{
 		cin >> original[i];
 		pushback(original[i]);
+		counter1++;
 	}
-
-	cout << "you typed these numbers: ";
-	while (head!=NULL)
-	{
-		cout << head->value<<" ";
-		head = head->next;
-	}
-	Node *odds;
-	Node *evens;
+	Node *odds = NULL;
+	Node *evens = NULL;
 	split(head, odds, evens);
+
+	while(odds!=NULL)
+	{
+		cout<<"odd numbers are: "<<odds->value<<endl;
+		odds = odds->next;
+	}
+	while(evens!=NULL)
+	{
+		cout<<"even numbers are: "<<evens->value<<endl;
+		evens = evens->next;
+	}
 return 0;
 }

@@ -40,6 +40,7 @@ int LListString::size() const
 void LListString::insert(int pos, const string& val) ///ADD BACK std::string& val
 {
   if(pos<0 || pos>size()){
+    cout<<"invalid_argument"<<endl;
     return;
   }
   Item* newItem = new Item;
@@ -70,7 +71,7 @@ void LListString::insert(int pos, const string& val) ///ADD BACK std::string& va
     prevNode->next = newItem;
     nextNode->prev = newItem;
   }
-  cout<<"size is: "<<size_<<endl;
+  //cout<<"size is: "<<size_<<endl;
   size_++;
   /*if(size_ == 1)
   {
@@ -84,29 +85,43 @@ void LListString::insert(int pos, const string& val) ///ADD BACK std::string& va
 void LListString::remove(int pos)
 {
   // TODO: complete the remove function.
+  cout<<"inside remove"<<endl;
   Item* curr = getNodeAt(pos);
   if(size_==0){
+    cout<<"invalid_argument"<<endl;
+    return;
+  }
+  if(pos>=size()){
+    cout<<"invalid_argument"<<endl;
     return;
   }
   if(size_==1){
     head_ = NULL;
     tail_ = NULL;
     delete curr;
+    size_--;
+    return;
   }
-  if(pos==0){
-    head_ = getNodeAt(pos+1);
-    getNodeAt(pos+1)->prev = NULL;
+  else if(pos==0){
+    cout<<"position = 0"<<endl;
+    head_ = curr->next;
+     //head_ = curr+1;
+    //getNodeAt(pos+1)->prev = NULL;
+     head_->prev = NULL;
     delete curr;
+    cout<<"did i delete curr in pos==0??"<<endl;
   }
-  if(pos==size()){
+  else if(pos==size()-1){
     tail_ = getNodeAt(pos-1);
     getNodeAt(pos-1)->next = NULL;
     delete curr;
   }
+  else{
   getNodeAt(pos-1)->next = getNodeAt(pos+1);
   getNodeAt(pos-1)->next->prev = getNodeAt(pos-1);
   delete curr;
-
+  }
+  size_--;
 }
 
 void LListString::set(int pos, const std::string& val)
@@ -150,9 +165,15 @@ LListString::Item* LListString::getNodeAt(int pos) const
 {
   // TODO: complete the getNodeAt function.
   if(pos<0 || pos>size()){
+    cout<<"invalid_argument"<<endl;
     return NULL;
   }
   if (head_ == NULL){
+    cout<<"invalid_argument"<<endl;
+    return NULL;
+  }
+  if(tail_ == NULL){
+    cout<<"invalid_argument"<<endl;
     return NULL;
   }
     int counter = 0;
@@ -166,49 +187,4 @@ LListString::Item* LListString::getNodeAt(int pos) const
       curr = curr->next;
     }
   return curr; 
-}
-
-int main()
-{
-    LListString* list = new LListString();
-   std::cout<<"here"<<std::endl;
-
-   if (list->empty()) {
-    cout << "SUCCESS: List is empty initially." << endl;
-  } else {
-    cout << "FAIL: List is not empty initially when it should be." << endl;
-  }
-
-// Insert an item at the head.
-  list->insert(0, "Gandalf");
-  //list->insert(1, "Devin");
-
-  // Check if the list is still empty.
-  if (!list->empty()) {
-    cout << "SUCCESS: List is not empty after one insertion." << endl;
-  } else {
-    cout << "FAIL: List is empty after one insertion." << endl;
-  }
-
- if (list->size() == 1) {
-    cout << "SUCCESS: List has size 1 after one insertion." << endl;
-  } else {
-    cout << "FAIL: List has size " << list->size() << " after one insertion.";
-    cout << endl;
-  }
-
-  // Check if the value is correct.
-  if (list->get(0) == "Gandalf") {
-    cout << "SUCCESS: 3 is at the 0th index of the list." << endl;
-  } else {
-    cout << "FAIL: 3 is not at the 0th index of the list, " << list->get(0);
-    cout << " is instead." << endl;
-  }
-
-  // TODO: Continue adding tests for your program, or start your own file with your
-  // own tests. Remember to submit a file that is named correctly!
-
-  // Clean up memory.
-  delete list;
-  return 0;
 }

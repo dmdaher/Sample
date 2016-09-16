@@ -37,3 +37,41 @@ Now, when the while loop is entered, the for loop is running as many times as cu
 d. 
 
 
+
+Problem 4
+
+1. 
+
+
+2. A list of strings of the names of the students would be simple enough to know which students solved the problem. 
+
+3. A list of strings stored in an array where the index of the array is the supposed pokeindex. Because arrays are index 0 to n, the array+1 would be the pokeindex number since the array is an index number behind the pokeindex.
+
+4. A map would be perfect for this where the name of the movie would be the key value while the year it was made would be the mapped value that stores the content associated with that key. Because of the key and map value association, typing a movie name and the year would immediately link you with all the reviews you need.
+
+
+
+Problem 5
+
+I will define in and out as #in and #out to make it visible in the text. 
+
+Basically, this recursion reverses the linked list to make it 5,4,3,2,1.
+#in points to 1,2,3,4,5 and when it is called, it and its next do not point to NULL, so out is set equal to funcA(#in->next). Before we continue, #in still points to the beginning from 1-5 and #out points to 2-5 because #in->next was the argument inside funcA when it was set equal to #out. 
+
+Now, funcA is called until in points to 5 and its next is NULL, so it skips the if statement and returns #in. To summarize, #out was set = to funcA when the list was 2,3,4,5 then 3,4,5 then 4,5 then 5. Then, #in returns #in because when #in points to 5, its next is NULL and ends up returning #in. Thus, when #in returns, it reverts back to pointing at 4,5 while #out still points to the position of 5.
+
+Now, funcB is called with the arguments(#in, #out) which #in points to 4,5 and #out points to 5. In funcB, #out = #in2 so #in2's next is NULL since it is only pointing at 5, so it sets in2's next pointer to in1. Thus, #in2 points to 5 which points to #in1 (4,5) so the whole list inside funcB is 5,4,5. FuncB is exited and the program continues to the next line after calling funcB which sets #in's next to NULL. #in points to 4,5 so setting #in->next = NULL makes #in point to 4,NULL and removes the pointer to 5.
+Then, #out is returned. #out originally carried 5,4,5 after leaving funcB, but because out's next was set equal to #in1 in funcB, this means if #in1/#in changes, then #out must change. Thus, because #in only points to 4,5 now in this level of recursion, out no longer points to 5,4,5 but only 5,4,NULL.
+
+After out is returned, the recursion kicks back up a level and enters funcB when #in is pointing at 3,4,NULL. (Remember, it is no longer 3,4,5 because of the previous statement to set the next to NULL when #in was pointing at 4). FuncB is entered with the arguments #in which points to 3,4 and #out which points to 5,4. #in2's next is not null so funcB is called again with #in1 and #in2->next which now points to just 4. Now #in2's next is NULL, so #in2->next = #in1 meaning that 4 points to the start of #in1 which is 3,4 so the list looks like 4,3,4. Then, the recursion returns to the previous funcB call where the pointer starts at 5 and, while it previously pointed only to 5->4, now it points to 5,4,3,4. FuncB then exits and the program continues to the next statement where #in's next is set to NULL. This means that #in which pointed to 3,4 now points just to 3. Then, #out is returned which no longer points to 5,4,3,4 but just only 5,4,3 because when #in changes its pointer or its next pointer, it also affects what #out points to because it is the same list.
+
+The recursion continues until #out points to 5,4,3,2,1.
+
+
+5. 
+
+
+
+
+
+
