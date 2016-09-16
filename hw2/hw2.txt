@@ -1,16 +1,15 @@
 a. README.md should read that the files are tracked and unmodified because the files were grabbed from the repo and were not changed (unmodified).
 
-b. fun_problem is untracked (not unmodified because check the diagram)
-readme is modified
+b. The file fun_problem.txt is untracked because it was just created, and the
+readme.md is modified because the echo call appends a line to the contents in the file.
 
-c. both staged
+c. They are both staged once the git add is called
 
-d. both are unmodified when committed and then are modified when echo is called
+d. They are both unmodified when committed and then are modified when echo is called on both.
 
-e. readme is staged and funproblem is unmodified since checkout discards changes inworking directory.
-   contents of fun problem is NOTHING because so far so good was called but then checkout discarded that addition
+e. Readme.md is staged and funproblem.txt is unmodified since the checkout call discards changes that were made in the working directory. The contents of fun_problem.txt is NOTHING because so far so good was appended to it but then checkout discarded that addition.
    
-f. Readme is modified because "Fancy git move" was appended to Readme
+f. Readme.md is modified because "Fancy git move" was appended to Readme.md with the echo call.
 
 
 Problem 2
@@ -33,6 +32,7 @@ c. O(n^2)
 When the for loop is entered, a new node is created and the for loop builds a linked list. The for loop runs from i=1 to n times which is big O notation of O(n), meaning the linked list is size n. Each time the for loop runs, the data stored in curr is shifted from 1 over i times. Thus, each consective data value will be 1 to 10 to 100 to 1000 and so on until the data value equals 2^n times when i reaches size n. Another way to say that is the binary values grow exponentially from 1 to 2 to 4 to 2^n. Next, the while loop is entered when curr is equal to the head. Inside the for loop, i starts at 0 and runs curr->data times which is equal to 2^n as explained earlier. The command inside the for loop sets curr->data equal to itself/2 which over time after it runs curr->data times (2^n times), the for loop actually runs log base 2 (2^n) = n times since the command is dividing itself by 2 every time. Then, the curr moves over to the next node and this for loop repeats n times since the linked list was built until size n as described earlier. Thus, because the for loop inside the while loop runs at O(n), the while loop runs n times O(n), the overall big O inside the while loop is O(n)*O(n) = O(n^2) which is added to the O(n) of the first for loop which is overall still O(n^2). 
 
 d.O(n)
+The first for loop will run n times total. Then, the if statement will always run at O(1) when i is equal to the new size. Then, the next for loop is entered and j runs from 0 to size, then everything repeats and j runs from 0 to the new doubled size. The size starts at 10 then doubles to 20 to 40 to 80 and so on until n. This cost of resize in the inner for loop takes log(n) times. Now, the summation becomes the {sum from j=0 to log base2 (n/10) of O(10*2^j)} since the size starts at 10 and is growing at 10*2^j times. That sum is simplified to equal the O(sum from j=0 to log base2(n/10) of 2^j). This simplifies to the O([1-2^(logbase2(n/10)]/(1-2))) which, after simplification, becomes O(1-(n*10)/-1) = O(10n-1) which overall, is big O of O(n).  
 
 
 Problem 4
