@@ -240,7 +240,7 @@ string gameManager::grabRightSideWords(int rowArrayView, int colArrayView, strin
 	unsigned int counter = 0;
 	cout<<"size of vector is: "<<tilesPlacing.size()<<endl;
 	cout<<"item in vector initial and next is: "<<tilesPlacing.at(0)->getLetter()<<endl;
-	for(int i = colArrayView; i<mBoard->getCols(); i++){
+	for(int i = colArrayView; i<mBoard->getRows(); i++){
 		if(mSquare[rowArrayView][colArrayView+counter]->isCovered()==false){
 			cout<<"should be here twice: "<<counter<<endl;
 			if(vectorCounter==tilesPlacing.size()){return fullWordToRightStr;}
@@ -260,88 +260,20 @@ string gameManager::grabRightSideWords(int rowArrayView, int colArrayView, strin
 	return fullWordToRightStr;
 }
 
-string gameManager::grabWordsBelow(int rowArrayView, int colArrayView, string &fullWordBelowStr, vector<Tile*> &tilesPlacing){
-	unsigned int vectorCounter = 0;
-	unsigned int counter = 0;
-	cout<<"size of vector is: "<<tilesPlacing.size()<<endl;
-	cout<<"item in vector initial and next is: "<<tilesPlacing.at(0)->getLetter()<<endl;
-	for(int i = colArrayView; i<mBoard->getRows(); i++){
-		if(mSquare[rowArrayView+counter][colArrayView]->isCovered()==false){
-			cout<<"should be here twice: "<<counter<<endl;
-			if(vectorCounter==tilesPlacing.size()){return fullWordBelowStr;}
-			else{
-				fullWordBelowStr += tilesPlacing.at(vectorCounter)->getLetter();
-				cout<<"fullWordBelowStr is: "<<fullWordBelowStr<<endl;
-				vectorCounter++;
-				counter++;
-			}
-		}
-		else if(mSquare[rowArrayView+counter][colArrayView]->isCovered()==true){
-			fullWordBelowStr = fullWordBelowStr + mSquare[rowArrayView+counter][colArrayView]->getSquareLetters();
-			cout<<"what is fullWordToRightStr when it grabs board letter if it even does: "<<fullWordBelowStr<<endl;
-			counter++;
-		}
-	}
-	return fullWordBelowStr;
-}
-
 bool gameManager::validWord(string checkWord){
 	cout<<"word is: "<<checkWord<<endl;
 	if(mDict->find(checkWord)==true){return true;}
 	return false;
 }
-
-bool gameManager::validVertAdjacency(int rowArrayView, int colArrayView, vector<Tile*> &tilesPlacing){
-	int counter = 0;
-	string checkWordUp = "";
-	string vectorToString = "";
-	string fullWordBelowStr = "";
-	vector<Tile*> tilesAdjacent;
-	vector<Tile*> fullWordToRight;
-	copyVector(tilesAdjacent, tilesPlacing);
-	fullWordBelowStr = grabWordsBelow(rowArrayView, colArrayView, fullWordBelowStr, tilesPlacing);
-	stringstream ss;
-	ss<<fullWordBelowStr;
-	ss>>fullWordBelowStr;
-	cout<<"what is in fullWordBelowStr?" <<fullWordBelowStr<<endl;
-	if(mSquare[rowArrayView-1][colArrayView]->isCovered()==true){
-		while(mSquare[rowArrayView-counter-1][colArrayView]->isCovered()==true){
-			checkWordUp = checkWordUp + mSquare[rowArrayView-counter-1][colArrayView]->getSquareLetters();
-			counter++;
-			cout<<"checkwordUp is: "<<checkWordUp<<endl;
-		}
-		string tempCheckWordUp = "";
-		for(unsigned int i = 0; i<checkWordUp.size(); i++){
-			tempCheckWordUp += checkWordUp[checkWordUp.size()-i-1];
-		}
-		checkWordUp = tempCheckWordUp;
-		cout<<"reversed word is now: "<<checkWordUp<<endl;
-		checkWordUp = checkWordUp+fullWordBelowStr;
-		cout<<"now checkwordUp after full concatenation is: "<<checkWordUp<<endl;
-		if(validWord(checkWordUp)==true){
-			completeVertTile = checkWordUp;
-			return true;
-		}
-	}
-	else if(validWord(fullWordBelowStr)==true){
-		completeVertTile = fullWordBelowStr;
-		cout<<"does it get here? and completeVertTile is: "<<completeVertTile<<endl;
-		return true;
-	}
-	else if(validWord(fullWordBelowStr)==false){
-		cout<<"did it return false for vert word?"<<endl;return false;}
-	return true; ///should this be here......????????????????????????????????
-}
  
-bool gameManager::validHorizAdjacency(int rowArrayView, int colArrayView, vector<Tile*> &tilesPlacing){//to get the letter at a square, use getSquareLetters
+bool gameManager::validAdjacency(int rowArrayView, int colArrayView, vector<Tile*> &tilesPlacing){//to get the letter at a square, use getSquareLetters
 	int counter = 0;
 	string checkWordLeft = "";
-	//string checkWordUp = "";
-	//string checkWordRight = "";
-	//string checkWordDown = "";
+	string checkWordUp = "";
+	string checkWordRight = "";
+	string checkWordDown = "";
 	string vectorToString = "";
 	string fullWordToRightStr = "";
-	//string fullWordBelowStr = "";
 	vector<Tile*> tilesAdjacent;
 	vector<Tile*> fullWordToRight;
 	copyVector(tilesAdjacent, tilesPlacing);
@@ -353,6 +285,7 @@ bool gameManager::validHorizAdjacency(int rowArrayView, int colArrayView, vector
 	stringstream ss;
 	ss<<fullWordToRightStr;
 	ss>>fullWordToRightStr;
+	//cout<<"grabbing the right words is the problem?"<<endl;
 	cout<<"what is in fullWordToRightStr?"<<fullWordToRightStr<<endl;
 	if(mSquare[rowArrayView][colArrayView-1]->isCovered()==true){
 		while(mSquare[rowArrayView][colArrayView-counter-1]->isCovered()==true){
@@ -365,6 +298,8 @@ bool gameManager::validHorizAdjacency(int rowArrayView, int colArrayView, vector
 			tempCheckWordLeft += checkWordLeft[checkWordLeft.size()-i-1];
 		}
 		checkWordLeft = tempCheckWordLeft;
+		// ss<<checkWordLeft;
+		// ss>>checkWordLeft;
 		cout<<"reversed word is now: "<<checkWordLeft<<endl;
 		checkWordLeft = checkWordLeft+fullWordToRightStr;
 		cout<<"now checkword after full concatenation is: "<<checkWordLeft<<endl;
@@ -372,6 +307,11 @@ bool gameManager::validHorizAdjacency(int rowArrayView, int colArrayView, vector
 			completeTile = checkWordLeft;
 			return true;
 		}
+		// for(unsigned int i = 0; tilesPlacing.size(); i++){
+		// 	Tile* tile = tilesPlacing.back();
+		// 	tilesPlacing.pop_back();
+		// 	vectorToString = vectorToString + tile->getLetter();
+		// }
 	}
 	else if(validWord(fullWordToRightStr)==true){
 		completeTile = fullWordToRightStr;
@@ -382,6 +322,22 @@ bool gameManager::validHorizAdjacency(int rowArrayView, int colArrayView, vector
 		cout<<"did it return false for DIE?"<<endl;return false;}
 	return true; ///should this be here......????????????????????????????????
 }
+
+//checkWord = checkWord + mSquare[rowArrayView][colArrayView+1+counter]->getSquareLetters();
+// 	// 		counter++;
+// 	// 	}
+// 		// string vectorToString = " ";
+// 		// for(unsigned int i = 0; tilesPlacing.size(); i++){
+// 		// 	Tile* tile = tilesPlacing.back();
+// 		// 	tilesPlacing.pop_back();
+// 		// 	vectorToString = vectorToString + tile->getLetter();
+// 		// }
+// 		// for(unsigned int i = 0; i < vectorToString.size(); i++){
+// 		// 	vectorToString[i] = vectorToString[vectorToString.size()-1-i];
+// 		// }
+// 		// checkWord = vectorToString + checkWord;
+// 		// if(mDict->find(checkWord)==false){return false;}
+//}
 
 bool gameManager::doCheck(bool &fullCheck, string &dir, int rowArrayView, int colArrayView, vector<Tile*> &tilesPlacing, string &tilesPlaced){
 	//if anytime something should not work, fullcheck should become FALSE but if things are good, fullCheck is TRUE
@@ -401,12 +357,8 @@ bool gameManager::doCheck(bool &fullCheck, string &dir, int rowArrayView, int co
 		if(fullCheck==false){mUI.placeTileCheck(); return false;}
 
 		//cout<<"entering valid adjacency! might get stuck"<<endl;
-		fullCheck = validHorizAdjacency(rowArrayView,colArrayView,tilesPlacing);
+		fullCheck = validAdjacency(rowArrayView,colArrayView,tilesPlacing);
 		cout<<"validadjacency fullcheck is: "<<fullCheck<<endl;
-		if(fullCheck==false){mUI.placeTileCheck(); return false;}
-
-		fullCheck = validVertAdjacency(rowArrayView, colArrayView, tilesPlacing);
-		cout<<"validVertAdjacency fullcheck is: "<<fullCheck<<endl;
 		if(fullCheck==false){mUI.placeTileCheck(); return false;}
 		//mDict->find(tilesPlaced); //check if the word is valid for every combo of words that connect
 
@@ -416,24 +368,17 @@ bool gameManager::doCheck(bool &fullCheck, string &dir, int rowArrayView, int co
 }
 
 int gameManager::horizontalPlace(int &doubleTimeCounter, int &tripleCounter, int rowArrayView, int colArrayView, string &doubleTime, string &triple, 
-	int wordScore, vector<Tile*> &tilesPlacing){
-	
-	unsigned int vectorCounter = 0;
-	for(unsigned int i = 0; i<completeTile.size(); i++){
-		if(mSquare[rowArrayView][colArrayView+i]->isCovered()==0){
-			if(vectorCounter<tilesPlacing.size()){
-				if(mSquare[rowArrayView][colArrayView+i]->getCharMultiplier() == 'd'){
-					doubleTimeCounter++;
-					doubleTime = "D";
-				}
-				if(mSquare[rowArrayView][colArrayView+i]->getCharMultiplier() == 't'){
-					tripleCounter++;
-					triple = "T";
-				}
-				mSquare[rowArrayView][colArrayView+i]->addTileHoriz(tilesPlacing[vectorCounter]->getLetter(),tilesPlacing[vectorCounter]->getPoints());
-			}
-			vectorCounter++;
+	int wordScore, vector<Tile*> &tilesPlacing, string &completeTile){
+	for(unsigned int i = 0; i<tilesPlacing.size(); i++){
+		if(mSquare[rowArrayView][colArrayView-counter+i]->getCharMultiplier() == 'd'){
+			doubleTimeCounter++;
+			doubleTime = "D";
 		}
+		if(mSquare[rowArrayView][colArrayView+i]->getCharMultiplier() == 't'){
+			tripleCounter++;
+			triple = "T";
+		}
+		mSquare[rowArrayView][colArrayView+i]->addTileHoriz(tilesPlacing[i]->getLetter(),tilesPlacing[i]->getPoints());
 	}
 	int counter = 0;
 	while(mSquare[rowArrayView][colArrayView-counter-1]->isCovered()==true){
@@ -446,39 +391,12 @@ int gameManager::horizontalPlace(int &doubleTimeCounter, int &tripleCounter, int
 	}
 	return wordScore;
 }
-int gameManager::verticalPlace(int &doubleTimeCounter, int &tripleCounter, int rowArrayView, int colArrayView, string &doubleTime, string &triple, 
-	int wordScore, vector<Tile*> &tilesPlacing){
-
-	unsigned int vectorCounter = 0;
-	for(unsigned int i = 0; i<completeVertTile.size(); i++){
-		if(mSquare[rowArrayView+i][colArrayView]->isCovered()==0){
-			if(vectorCounter<tilesPlacing.size()){
-				if(mSquare[rowArrayView+i][colArrayView]->getCharMultiplier() == 'd'){
-					doubleTimeCounter++;
-					doubleTime = "D";
-				}
-				if(mSquare[rowArrayView+i][colArrayView]->getCharMultiplier() == 't'){
-					tripleCounter++;
-					triple = "T";
-				}
-				mSquare[rowArrayView+i][colArrayView]->addTileHoriz(tilesPlacing[vectorCounter]->getLetter(),tilesPlacing[vectorCounter]->getPoints());
-			}
-			vectorCounter++;
-		}
-	}
-	int counter = 0;
-	while(mSquare[rowArrayView-counter-1][colArrayView]->isCovered()==true){
-		counter++;
-	}
-	cout<<"counter is: "<<counter<<"and should be 3"<<endl;
-	for(unsigned int i = 0; i<completeVertTile.size(); i++){
-		wordScore += mSquare[rowArrayView-counter+i][colArrayView]->getScore();
-		cout<<"wordscore is: "<<wordScore<<endl;
-	}
-	return wordScore;
-}
 void gameManager::placeTiles(string dir, int row, int col, string tilesPlaced){
 	//use same technique of checking if tiles are valid like in the Exchange call
+	// for(int i = 7; i<13; i++){
+	// 	cout<<"for row 8 column"<<i<<"is it covered? "<<endl;
+	// 	cout<<"check initial coverings"<<mSquare[7][i]->isCovered()<<endl;
+	// }
 	vector<Tile*> tilesPlacing;
 	vector<Tile*> totalTiles;
 	string currTileLetters;
@@ -509,12 +427,18 @@ void gameManager::placeTiles(string dir, int row, int col, string tilesPlaced){
 	tilesPlaced = tempTilesToPlace;
 	if(equiv==0){}
 	else{
+		//bool validWord = mDict->find(tilesPlaced);
+		//int checkStartX = mBoard->getStartRow();
+		//int checkStartY = mBoard->getStartCol();
 		int rowArrayView = row-1;
 		int colArrayView = col-1;
 		tilesPlaced = addTilestoVector(tilesPlaced, tilesPlacing, currPlayerTiles); //adding tiles to tilesplacing
 		tilesPlaced = tempTilesToPlace;
 		tilesPlacing = adjustVector(tilesPlaced, tilesPlacing);
+		cout<<"tilesplaced is 0?:"<<tilesPlaced.size()<<endl;
 		tilesPlaced = tempTilesToPlace; 
+		cout<<"tilespalced is now 3:"<<tilesPlaced.size()<<endl;
+		//cout<<"tilesplaced holds: "<<tilesPlaced[0]<<tilesPlaced[1]<<endl; //potential SEGFAULT!!!!
 		bool fullCheck = 1;
 		fullCheck = doCheck(fullCheck, dir, rowArrayView, colArrayView, tilesPlacing, tilesPlaced);
 		cout<<"full check is: "<<fullCheck<<endl;
@@ -522,6 +446,7 @@ void gameManager::placeTiles(string dir, int row, int col, string tilesPlaced){
 		if(fullCheck==false){cout<<"fullcheck is false!"<<endl; mUI.placeTileCheck();}
 		else{
 			tilesPlacing.clear();
+			cout<<"tilesplacing should be empty: "<<tilesPlacing.size()<<endl;
 			while(!tilesPlaced.empty()){
 				tilesPlaced = editPlayerTiles(tilesPlaced, tilesPlacing, currPlayerTiles);
 			}
@@ -530,11 +455,16 @@ void gameManager::placeTiles(string dir, int row, int col, string tilesPlaced){
 			tilesPlacing = adjustVector(tilesPlaced, tilesPlacing);
 			int wordScore = 0;
 			if(dir == "-"){
-				string doubleTime = "";
-				string triple = "";
+				string doubleTime = " ";
+				string triple = " ";
 				int doubleTimeCounter = 0;
 				int tripleCounter = 0;
-				wordScore = horizontalPlace(doubleTimeCounter, tripleCounter, rowArrayView, colArrayView, doubleTime, triple, wordScore, tilesPlacing);
+				//unsigned int counter = 0;
+				//int wordScore = 0;
+				cout<<"tilesplaced should be AU and is: "<<tilesPlaced<<endl;
+				cout<<"after docheck before placing, complete tile is: "<<completeTile<<endl;
+				//cout<<"tilesplacing holds: "<<tilesPlacing.at(0)->getLetter()<<"and"<<tilesPlacing.at(1)->getLetter()<<endl;
+				wordScore = horizontalPlace(doubleTimeCounter, tripleCounter, rowArrayView, colArrayView, doubleTime, triple, wordScore, tilesPlacing, completeTile);
 				cout<<"wordscore is: "<<wordScore<<endl;
 				cout<<"doubleTimeCounter is: "<<doubleTimeCounter<<" and tripleCounter is: "<<tripleCounter<<endl;
 				set<Tile*> newSet = mBag->drawTiles(tilesPlacing.size());
@@ -546,24 +476,31 @@ void gameManager::placeTiles(string dir, int row, int col, string tilesPlaced){
 				if(triple == "T"){wordScore = (wordScore*3)*tripleCounter;}
 				getPlayer(mTurn)->updatePlayerTiles(currPlayerTiles);
 				getPlayer(mTurn)->setScore(wordScore);
-				if(tilesPlacing.size()==7){getPlayer(mTurn)->setScore(50);}
 			}
 			else if(dir == "|"){
-				string doubleTime = "";
-				string triple = "";
-				int doubleTimeCounter = 0;
-				int tripleCounter = 0;
-				wordScore = verticalPlace(doubleTimeCounter, tripleCounter, rowArrayView, colArrayView, doubleTime, triple, wordScore, tilesPlacing);
+				string doubleTime = " ";
+				string triple = " ";
+				int counter = 0;
+				//int wordScore = 0; //do i want to set wordscore to 0 here?
+				for(unsigned int i = 0; i<completeTile.size(); i++){
+					if(mSquare[rowArrayView+i][colArrayView]->isCovered()==0){
+						mSquare[rowArrayView+i][colArrayView]->addTileVert(tilesPlacing[counter]->getLetter(),tilesPlacing[counter]->getPoints());
+						if(mSquare[rowArrayView+i][colArrayView]->getCharMultiplier() == 'd'){doubleTime = "D";}
+						if(mSquare[rowArrayView+i][colArrayView]->getCharMultiplier() == 't'){triple = "T";}
+						wordScore += mSquare[rowArrayView+i][colArrayView]->getScore();
+						counter++;
+					}
+					else{mUI.placeTileCheck();}
+				}
 				set<Tile*> newSet = mBag->drawTiles(tilesPlacing.size());
 				for(it=newSet.begin(); it!=newSet.end(); it++){
 					Tile* tile = *it;
 					currPlayerTiles.insert(tile);
 				}
-				if(doubleTime == "D"){wordScore = (wordScore*2)*doubleTimeCounter;}
-				if(triple == "T"){wordScore = (wordScore*3)*tripleCounter;}
+				if(doubleTime == "D"){wordScore = wordScore*2;}
+				if(triple == "T"){wordScore = wordScore*3;}
 				getPlayer(mTurn)->updatePlayerTiles(currPlayerTiles);
 				getPlayer(mTurn)->setScore(wordScore);
-				if(tilesPlacing.size()==7){getPlayer(mTurn)->setScore(50);}
 			}
 			mMadeMove = 1;
 		}

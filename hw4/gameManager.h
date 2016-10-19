@@ -22,6 +22,8 @@ private:
 	bool mMadeMove;
 	int mTurn;
 	int mNumUsers;
+	std::string completeTile;
+	std::string completeVertTile;
 	Dictionary* mDict;
 	Board* mBoard;
 	Bag* mBag;
@@ -37,7 +39,13 @@ private:
 	bool validWord(std::string checkWord);
 	std::string addTilestoVector(std::string tilesPlaced, std::vector<Tile*> &tilesPlacing, std::set<Tile*> &currPlayerTiles);
 	std::string grabRightSideWords(int rowArrayView, int colArrayView, std::string &fullWordToRightStr, std::vector<Tile*> &tilesPlacing);
-	bool validAdjacency(int row, int col, std::vector<Tile*> &tilesPlacing);
+	std::string grabWordsBelow(int rowArrayView, int colArrayView, std::string &fullWordBelowStr, std::vector<Tile*> &tilesPlacing);
+	bool validHorizAdjacency(int rowArrayView, int colArrayView, std::vector<Tile*> &tilesPlacing);
+	bool validVertAdjacency(int rowArrayView, int colArrayView, std::vector<Tile*> &tilesPlacing);
+	int horizontalPlace(int &doubleTimeCounter, int &tripleCounter, int rowArrayView, int colArrayView, 
+		std::string &doubleTime, std::string &triple, int wordScore, std::vector<Tile*> &tilesPlacing);
+	int verticalPlace(int &doubleTimeCounter, int &tripleCounter, int rowArrayView, int colArrayView, 
+		std::string &doubleTime, std::string &triple, int wordScore, std::vector<Tile*> &tilesPlacing);
 	void placeTiles(std::string direction, int row, int col, std::string tilesPlaced);
 	std::vector<Tile*> adjustVector(std::string tilesPlaced, std::vector<Tile*> &tilesPlacing);
 	std::string validTiles(std::string tilesToGive, std::string fullSet, bool &equiv);
