@@ -76,7 +76,6 @@ void Square::addTileHoriz(char tilesToPlace, int points){
 	ss>>tilesToPlaceStr;
 	tilesToPlace = tempTilesToPlace;
 	mSquareLetters = tilesToPlace;
-	//cout<<"mSquare letters should be D, then I, then E"<<mSquareLetters<<endl;
 	ss2<< points;
 	ss2>>pointStr;
 	if(pointStr == "10")
@@ -113,14 +112,25 @@ int Square::getMultiplier(){return mMultiplier;}
 int Square::getScore(){return mScore;}
 
 void Square::addTileVert(char tilesToPlace, int points){
+	stringstream ss;
+	stringstream ss2;
+	char tempTilesToPlace = tilesToPlace;
 	string pointStr;
 	string tilesToPlaceStr;
+	ss<<tilesToPlace;
+	ss>>tilesToPlaceStr;
+	tilesToPlace = tempTilesToPlace;
 	mSquareLetters = tilesToPlace;
-	stringstream ss;
-	ss<< points;
-	ss>>pointStr;
-	if(pointStr == "10"){mStringMultiplier = tilesToPlace+pointStr;}
-	else{mStringMultiplier = tilesToPlace+pointStr+" ";}
+	ss2<< points;
+	ss2>>pointStr;
+	if(pointStr == "10")
+	{
+		mStringMultiplier = tilesToPlace+pointStr;
+	}
+	else{
+		mStringMultiplier = tilesToPlace+pointStr+" ";
+		cout<<"mStringMultiplier is:"<<mStringMultiplier<<endl;
+	}
 	mScore = points;
 	if(mCharMultiplier=='t'){
 		mCharMultiplier = 't';
