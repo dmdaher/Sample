@@ -77,6 +77,7 @@ public class Entities {
 			else
 			{
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(prevTag, scan, stEntity, success);
 			}
 		}
@@ -128,6 +129,7 @@ public class Entities {
 			{
 				//cut prevTag
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(cutPrevTag, scan, stEntity, success);
 			}
 		}
@@ -188,6 +190,7 @@ public class Entities {
 				String[] result = prevTag.split(" ", 2);
 				String cutPrevTag = result[0];
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(cutPrevTag, scan, stEntity, success);
 			}
 		}
@@ -235,6 +238,7 @@ public class Entities {
 			else
 			{
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(prevTag, scan, stEntity, success);
 			}
 		}
@@ -280,6 +284,7 @@ public class Entities {
 			else
 			{
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(prevTag, scan, stEntity, success);
 			}
 		}
@@ -321,6 +326,7 @@ public class Entities {
 			else
 			{
 				System.out.println("Invalid input! \n");
+				scan.nextLine();
 				Process(prevTag, scan, stEntity, success);
 			}
 		}
